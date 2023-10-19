@@ -1,0 +1,19 @@
+{
+  "name": "shopping-list-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "sass --watch app/scss:dist/css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sass": "^1.69.4"
+  },
+  "devDependencies": {
+    "@popperjs/core": "^2.11.8",
+    "autoprefixer": "^10.4.16",
+    "postcss-cli": "^10.1.0"
+  }
+}
