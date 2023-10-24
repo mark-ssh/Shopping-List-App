@@ -326,7 +326,9 @@ body {
   display: flex;
   align-items: center;
 }
-.main .main_container .results_container li .item_group .option .btn-light svg {
+.main .main_container .results_container li .item_group .option .btn-light .icofont-close {
+  font-size: 1.5rem;
+  color: var(--purple);
   margin: 0 auto;
 }
 .main .main_container .results_container li .item_group .option .btn-light:hover {

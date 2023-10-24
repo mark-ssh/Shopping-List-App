@@ -292,7 +292,9 @@ body {
               width: 2.5rem;
               display: flex;
               align-items: center;
-              svg {
+              .icofont-close {
+                font-size: 1.5rem;
+                color: var(--purple);
                 margin: 0 auto;
               }
               &:hover {
