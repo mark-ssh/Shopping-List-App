@@ -3,28 +3,25 @@ let shoppingLists = document.getElementById("lists");
 let categoryOption = document.getElementById("unit-group");
 let unitInputText = document.getElementById("units-input");
 
-
-
 let shopping_list = [];
 const myItem = (item) => {
-  console.log(item)
+  console.log(item);
   const li = document.createElement("li");
-  li.setAttribute('id', item.id)
+  li.setAttribute("id", item.id);
   if (item.check) {
-        li.classList.add("checked");
-        
-      } else {
-        li.classList.remove("checked");
-      }
+    li.classList.add("checked");
+  } else {
+    li.classList.remove("checked");
+  }
 
   li.innerHTML = `
   <div class="form-check" >
-        <input class="form-check-input" onclick="checkItem(${item.id})" type="checkbox" ${item.check ? 'checked' : ''} id=check${item.id}>
+        <input class="form-check-input" onclick="checkItem(${item.id})" type="checkbox" ${item.check ? "checked" : ""} id=check${item.id}>
         <label class="form-check-label" for="flexCheckDefault" id="shopping-item">
           <h4>${item.name}</h4>
           <p>${item.unit}<span>&nbsp${item.category} </span></p>
         </label>
-      </div>
+    </div>
       <div class="item_group">
         <div class="fruit-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="none">
@@ -42,34 +39,34 @@ const myItem = (item) => {
         </div>
         <div class="option">
           <button class="btn-light">
-          <i class="icofont-close"></i>
+            <i class="icofont-close" onclick="removeItem(${item.id});"></i>
           </button>
           
         </div>
       </div>
   `;
   return li;
-}
-function main() {
-  const shopListing = localStorage.getItem("shopping_list");
+};
 
-    if(shopListing) {
-      shopping_list = JSON.parse(shopListing)
-      
-        for(let item of shopping_list) {
-          shoppingLists.appendChild(myItem(item))
-        }
-      
-    }
+function setStorage() {
+  localStorage.setItem("shopping_list", JSON.stringify(shopping_list));
 }
+
+function getStorage() {
+  const list = localStorage.getItem("shopping_list");
+  return list ? JSON.parse(list) : [];
+}
+
+
 
 (function () {
-  
-  main()
+  shopping_list = getStorage();
+  for (let item of shopping_list) {
+    shoppingLists.appendChild(myItem(item));
+  }
 })();
 
 function addTask() {
- 
   if (textField.value === "") {
     alert("Input field cannot be empty!");
   } else {
@@ -78,46 +75,46 @@ function addTask() {
       unit: unitInputText.value,
       category: categoryOption.value,
       check: false,
-      id: shopping_list.length
-    }
+      id: shopping_list.length,
+    };
 
-    console.log(item)
+    console.log(item);
     shopping_list.push(item);
 
-    localStorage.setItem('shopping_list', JSON.stringify(shopping_list));
-   
-    shoppingLists.appendChild(myItem(item));
+    setStorage();
 
-  
+    shoppingLists.appendChild(myItem(item));
   }
 
   textField.value = "";
   unitInputText.value = "";
 }
 
-
 function checkItem(id) {
+  shopping_list = shopping_list.map((data) => {
+    if (data.id === id) {
+      data.check = data.check ? false : true;
+    }
+    return data;
+  });
+
+  setStorage();
+
+  const li = document.getElementById(id);
+  const item = shopping_list.find((dd) => dd.id === id);
+  console.log(item);
   
-const shoppingLists = shopping_list.map(data => {
-
-  if(data.id === id) {
-    data.check = data.check ? false: true
+  if (item.check) {
+    li.classList.add("checked");
+  } else {
+    li.classList.remove("checked");
   }
-  return data;
-})
-
-
-localStorage.setItem('shopping_list', JSON.stringify(shoppingLists))
-
-const li = document.getElementById(id);
-const item = shopping_list.find(dd => dd.id === id)
-console.log(item)
-if (item.check) {
-  li.classList.add("checked");
-} else {
-  li.classList.remove("checked");
-}
-// const removeButton = li.querySelector(".icofont-close");
+  console.log(li);
 }
 
-
+function removeItem(id) {
+  shopping_list = shopping_list.filter((item) => item.id != id);
+  setStorage();
+  const li = document.getElementById(`${id}`);
+  li.remove();
+}
